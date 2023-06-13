@@ -104,6 +104,15 @@
         "documentation": {}
     },
     {
+        "label": "welcome_api",
+        "kind": 2,
+        "importPath": "app.main",
+        "description": "app.main",
+        "peekOfCode": "def welcome_api():\n    return \"Welcome to CPF API by Gabs\"\n@app.post(\"/validar-cpf\")\ndef validar_cpf(payload:ValidaCPF = Body):\n            cpf_formatado = re.sub(r'[^0-9]', '', payload.cpf)\n            nove_digitos = cpf_formatado[:9]\n            dez_digitos = cpf_formatado[:10]\n            resultado_soma_primeiro_digito = soma_digitos(nove_digitos, 10)\n            primeiro_digito = generate_cpf_digits(resultado_soma_primeiro_digito)\n            resultado_soma_segundo_digito =  soma_digitos(dez_digitos, 11)",
+        "detail": "app.main",
+        "documentation": {}
+    },
+    {
         "label": "validar_cpf",
         "kind": 2,
         "importPath": "app.main",
@@ -135,7 +144,7 @@
         "kind": 5,
         "importPath": "app.main",
         "description": "app.main",
-        "peekOfCode": "origins = [\"*\"]\n# allow all domains, but if want to specify which site you want to have acess, pass in te array, ex [\"https://www.google.com\"]\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=origins,\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)\n@app.post(\"/validar-cpf\")",
+        "peekOfCode": "origins = [\"*\"]\n# allow all domains, but if want to specify which site you want to have acess, pass in te array, ex [\"https://www.google.com\"]\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=origins,\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)\n@app.get(\"/\")",
         "detail": "app.main",
         "documentation": {}
     },

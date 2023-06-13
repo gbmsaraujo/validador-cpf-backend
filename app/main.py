@@ -19,6 +19,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+def welcome_api():
+    return "Welcome to CPF API by Gabs"
+
 @app.post("/validar-cpf")
 def validar_cpf(payload:ValidaCPF = Body):
 
