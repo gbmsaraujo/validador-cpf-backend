@@ -1,5 +1,13 @@
 [
     {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
         "label": "json",
         "kind": 6,
         "isExtraImport": true,
@@ -34,6 +42,14 @@
         "documentation": {}
     },
     {
+        "label": "schemas",
+        "importPath": "app.schemas",
+        "description": "app.schemas",
+        "isExtraImport": true,
+        "detail": "app.schemas",
+        "documentation": {}
+    },
+    {
         "label": "Body",
         "importPath": "fastapi.params",
         "description": "fastapi.params",
@@ -51,6 +67,14 @@
         "documentation": {}
     },
     {
+        "label": "cpf_utils",
+        "importPath": "app.utils",
+        "description": "app.utils",
+        "isExtraImport": true,
+        "detail": "app.utils",
+        "documentation": {}
+    },
+    {
         "label": "uvicorn",
         "kind": 6,
         "isExtraImport": true,
@@ -60,11 +84,12 @@
         "documentation": {}
     },
     {
-        "label": "BaseModel",
-        "importPath": "pydantic",
-        "description": "pydantic",
-        "isExtraImport": true,
-        "detail": "pydantic",
+        "label": "ValidaCPF",
+        "kind": 6,
+        "importPath": "app.schemas.schemas",
+        "description": "app.schemas.schemas",
+        "peekOfCode": "class ValidaCPF(BaseModel):\n    cpf: str",
+        "detail": "app.schemas.schemas",
         "documentation": {}
     },
     {
@@ -106,55 +131,46 @@
     {
         "label": "welcome_api",
         "kind": 2,
-        "importPath": "app.main",
-        "description": "app.main",
-        "peekOfCode": "def welcome_api():\n    return \"Welcome to CPF API by Gabs\"\n@app.post(\"/validar-cpf\")\ndef validar_cpf(payload:ValidaCPF = Body):\n            cpf_formatado = re.sub(r'[^0-9]', '', payload.cpf)\n            nove_digitos = cpf_formatado[:9]\n            dez_digitos = cpf_formatado[:10]\n            resultado_soma_primeiro_digito = soma_digitos(nove_digitos, 10)\n            primeiro_digito = generate_cpf_digits(resultado_soma_primeiro_digito)\n            resultado_soma_segundo_digito =  soma_digitos(dez_digitos, 11)",
-        "detail": "app.main",
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def welcome_api():\n    return \"Welcome to CPF API by Gabs\"\n@app.post(\"/validar-cpf\")\ndef validar_cpf(payload:schemas.ValidaCPF = Body):\n            cpf_formatado = re.sub(r'[^0-9]', '', payload.cpf)\n            nove_digitos = cpf_formatado[:9]\n            dez_digitos = cpf_formatado[:10]\n            resultado_soma_primeiro_digito = cpf_utils.soma_digitos(nove_digitos, 10)\n            primeiro_digito = cpf_utils.generate_cpf_digits(resultado_soma_primeiro_digito)\n            resultado_soma_segundo_digito =  cpf_utils.soma_digitos(dez_digitos, 11)",
+        "detail": "main",
         "documentation": {}
     },
     {
         "label": "validar_cpf",
         "kind": 2,
-        "importPath": "app.main",
-        "description": "app.main",
-        "peekOfCode": "def validar_cpf(payload:ValidaCPF = Body):\n            cpf_formatado = re.sub(r'[^0-9]', '', payload.cpf)\n            nove_digitos = cpf_formatado[:9]\n            dez_digitos = cpf_formatado[:10]\n            resultado_soma_primeiro_digito = soma_digitos(nove_digitos, 10)\n            primeiro_digito = generate_cpf_digits(resultado_soma_primeiro_digito)\n            resultado_soma_segundo_digito =  soma_digitos(dez_digitos, 11)\n            segundo_digito = generate_cpf_digits(resultado_soma_segundo_digito)\n            e_valido = valida_cpf(primeiro_digito, segundo_digito, cpf_formatado)\n            return e_valido",
-        "detail": "app.main",
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def validar_cpf(payload:schemas.ValidaCPF = Body):\n            cpf_formatado = re.sub(r'[^0-9]', '', payload.cpf)\n            nove_digitos = cpf_formatado[:9]\n            dez_digitos = cpf_formatado[:10]\n            resultado_soma_primeiro_digito = cpf_utils.soma_digitos(nove_digitos, 10)\n            primeiro_digito = cpf_utils.generate_cpf_digits(resultado_soma_primeiro_digito)\n            resultado_soma_segundo_digito =  cpf_utils.soma_digitos(dez_digitos, 11)\n            segundo_digito = cpf_utils.generate_cpf_digits(resultado_soma_segundo_digito)\n            e_valido = cpf_utils.valida_cpf(primeiro_digito, segundo_digito, cpf_formatado)\n            return e_valido",
+        "detail": "main",
         "documentation": {}
     },
     {
         "label": "gerar_cpf",
         "kind": 2,
-        "importPath": "app.main",
-        "description": "app.main",
-        "peekOfCode": "def gerar_cpf():\n    return generate_random_cpf()\nif __name__ == \"__main__\":\n    uvicorn.run(\"main:app\", host=\"127.0.0.1\", port=8000, reload=True, log_level=\"debug\")",
-        "detail": "app.main",
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def gerar_cpf():\n    return cpf_utils.generate_random_cpf()\nif __name__ == \"__main__\":\n    uvicorn.run(\"main:app\", host=\"127.0.0.1\", port=8000, reload=True, log_level=\"debug\")",
+        "detail": "main",
         "documentation": {}
     },
     {
         "label": "app",
         "kind": 5,
-        "importPath": "app.main",
-        "description": "app.main",
+        "importPath": "main",
+        "description": "main",
         "peekOfCode": "app = FastAPI()\norigins = [\"*\"]\n# allow all domains, but if want to specify which site you want to have acess, pass in te array, ex [\"https://www.google.com\"]\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=origins,\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)",
-        "detail": "app.main",
+        "detail": "main",
         "documentation": {}
     },
     {
         "label": "origins",
         "kind": 5,
-        "importPath": "app.main",
-        "description": "app.main",
+        "importPath": "main",
+        "description": "main",
         "peekOfCode": "origins = [\"*\"]\n# allow all domains, but if want to specify which site you want to have acess, pass in te array, ex [\"https://www.google.com\"]\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=origins,\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)\n@app.get(\"/\")",
-        "detail": "app.main",
-        "documentation": {}
-    },
-    {
-        "label": "ValidaCPF",
-        "kind": 6,
-        "importPath": "app.schemas",
-        "description": "app.schemas",
-        "peekOfCode": "class ValidaCPF(BaseModel):\n    cpf: str",
-        "detail": "app.schemas",
+        "detail": "main",
         "documentation": {}
     }
 ]
