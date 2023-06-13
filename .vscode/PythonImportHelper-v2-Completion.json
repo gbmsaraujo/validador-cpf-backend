@@ -1,0 +1,151 @@
+[
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "random",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "random",
+        "description": "random",
+        "detail": "random",
+        "documentation": {}
+    },
+    {
+        "label": "FastAPI",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "CORSMiddleware",
+        "importPath": "fastapi.middleware.cors",
+        "description": "fastapi.middleware.cors",
+        "isExtraImport": true,
+        "detail": "fastapi.middleware.cors",
+        "documentation": {}
+    },
+    {
+        "label": "Body",
+        "importPath": "fastapi.params",
+        "description": "fastapi.params",
+        "isExtraImport": true,
+        "detail": "fastapi.params",
+        "documentation": {}
+    },
+    {
+        "label": "re",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "re",
+        "description": "re",
+        "detail": "re",
+        "documentation": {}
+    },
+    {
+        "label": "uvicorn",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "uvicorn",
+        "description": "uvicorn",
+        "detail": "uvicorn",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "generate_cpf_digits",
+        "kind": 2,
+        "importPath": "app.utils.cpf_utils",
+        "description": "app.utils.cpf_utils",
+        "peekOfCode": "def generate_cpf_digits(resultado:int):\n    mult_per_10 = 0\n    div_per_11 = 0\n    mult_per_10 = resultado * 10\n    div_per_11 = mult_per_10 % 11\n    result_condition = 0 if div_per_11 > 9 else div_per_11\n    return result_condition\ndef soma_digitos(digitos:str, contador):\n    count = contador\n    resultado = 0",
+        "detail": "app.utils.cpf_utils",
+        "documentation": {}
+    },
+    {
+        "label": "soma_digitos",
+        "kind": 2,
+        "importPath": "app.utils.cpf_utils",
+        "description": "app.utils.cpf_utils",
+        "peekOfCode": "def soma_digitos(digitos:str, contador):\n    count = contador\n    resultado = 0\n    for numero in digitos:\n        resultado += count * int(numero)\n        count -= 1\n    return resultado\ndef valida_cpf(digito_um, digito_dois, cpf_formatado):\n    try:\n        e_valor_repetido = cpf_formatado[0] * len(cpf_formatado)",
+        "detail": "app.utils.cpf_utils",
+        "documentation": {}
+    },
+    {
+        "label": "valida_cpf",
+        "kind": 2,
+        "importPath": "app.utils.cpf_utils",
+        "description": "app.utils.cpf_utils",
+        "peekOfCode": "def valida_cpf(digito_um, digito_dois, cpf_formatado):\n    try:\n        e_valor_repetido = cpf_formatado[0] * len(cpf_formatado)\n        if cpf_formatado == e_valor_repetido:\n            return {\"message\":\"O CPF Informado é Inválido!\", \"status\": \"false\"}\n        concatena_digitos = f\"{digito_um}{digito_dois}\"\n        dois_ultimos_digitos = cpf_formatado[-2:]\n        is_valid = {\"message\":\"O CPF Informado é Válido!\", \"status\": \"true\"} if concatena_digitos == dois_ultimos_digitos else {\"message\":\"O CPF Informado é Inválido!\", \"status\": \"false\"}\n        return is_valid\n    except:",
+        "detail": "app.utils.cpf_utils",
+        "documentation": {}
+    },
+    {
+        "label": "generate_random_cpf",
+        "kind": 2,
+        "importPath": "app.utils.cpf_utils",
+        "description": "app.utils.cpf_utils",
+        "peekOfCode": "def generate_random_cpf():\n        generated_number = ''\n        for _ in range(9):\n            generated_number += str(random.randint(0,9))\n        soma_9_digitos = soma_digitos(generated_number, 10)\n        digito_1 = generate_cpf_digits(soma_9_digitos)\n        ten_digits = f\"{generated_number}{digito_1}\"\n        soma_10_digitos = soma_digitos(ten_digits, 11)\n        digito_2 = generate_cpf_digits(soma_10_digitos)\n        cpf_generated = f\"{generated_number}{digito_1}{digito_2}\"",
+        "detail": "app.utils.cpf_utils",
+        "documentation": {}
+    },
+    {
+        "label": "validar_cpf",
+        "kind": 2,
+        "importPath": "app.main",
+        "description": "app.main",
+        "peekOfCode": "def validar_cpf(payload:ValidaCPF = Body):\n            cpf_formatado = re.sub(r'[^0-9]', '', payload.cpf)\n            nove_digitos = cpf_formatado[:9]\n            dez_digitos = cpf_formatado[:10]\n            resultado_soma_primeiro_digito = soma_digitos(nove_digitos, 10)\n            primeiro_digito = generate_cpf_digits(resultado_soma_primeiro_digito)\n            resultado_soma_segundo_digito =  soma_digitos(dez_digitos, 11)\n            segundo_digito = generate_cpf_digits(resultado_soma_segundo_digito)\n            e_valido = valida_cpf(primeiro_digito, segundo_digito, cpf_formatado)\n            return e_valido",
+        "detail": "app.main",
+        "documentation": {}
+    },
+    {
+        "label": "gerar_cpf",
+        "kind": 2,
+        "importPath": "app.main",
+        "description": "app.main",
+        "peekOfCode": "def gerar_cpf():\n    return generate_random_cpf()\nif __name__ == \"__main__\":\n    uvicorn.run(\"main:app\", host=\"127.0.0.1\", port=8000, reload=True, log_level=\"debug\")",
+        "detail": "app.main",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "app.main",
+        "description": "app.main",
+        "peekOfCode": "app = FastAPI()\norigins = [\"*\"]\n# allow all domains, but if want to specify which site you want to have acess, pass in te array, ex [\"https://www.google.com\"]\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=origins,\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)",
+        "detail": "app.main",
+        "documentation": {}
+    },
+    {
+        "label": "origins",
+        "kind": 5,
+        "importPath": "app.main",
+        "description": "app.main",
+        "peekOfCode": "origins = [\"*\"]\n# allow all domains, but if want to specify which site you want to have acess, pass in te array, ex [\"https://www.google.com\"]\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=origins,\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)\n@app.post(\"/validar-cpf\")",
+        "detail": "app.main",
+        "documentation": {}
+    },
+    {
+        "label": "ValidaCPF",
+        "kind": 6,
+        "importPath": "app.schemas",
+        "description": "app.schemas",
+        "peekOfCode": "class ValidaCPF(BaseModel):\n    cpf: str",
+        "detail": "app.schemas",
+        "documentation": {}
+    }
+]
